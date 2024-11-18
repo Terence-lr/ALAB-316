@@ -1,0 +1,46 @@
+* /* Universal selector to apply box-sizing to all elements */
+* {
+  box-sizing: border-box; /* Includes padding and border in element’s width/height */
+}
+
+/* CSS Custom Properties for consistent colors throughout */
+:root {
+  --main-bg: #4a4e4d; /* Dark gray for background */
+  --top-menu-bg: #0e9aa7; /* Teal for the top menu */
+  --sub-menu-bg: #3da4ab; /* Light teal for submenu hover */
+}
+
+body {
+  font-family: Tahoma, Geneva, sans-serif; /* Sets a sans-serif font for readability */
+  height: 100vh; /* Sets body height to viewport height for full-page display */
+  margin: 0; /* Removes default margin */
+  display: grid; /* Enables grid layout for the body */
+  grid-template-rows: 3rem auto; /* Defines two rows: 3rem for header and rest for content */
+  color: white; /* White text for contrast against dark background */
+}
+
+.flex-ctr {
+  display: flex; /* Enables flexbox layout */
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+}
+
+.flex-around {
+  display: flex; /* Enables flexbox layout */
+  justify-content: space-around; /* Spaces elements evenly along main axis */
+  align-items: center; /* Centers elements vertically */
+}
+
+nav a {
+  line-height: 3rem; /* Sets height of nav links to match header */
+  padding: 0 1rem; /* Horizontal padding for spacing */
+  text-transform: uppercase; /* Converts text to uppercase */
+  text-decoration: none; /* Removes underline */
+  color: white; /* White text color for visibility */
+}
+
+#top-menu a:hover {
+  background-color: var(
+    --sub-menu-bg
+  ); /* Changes background color on hover using custom property */
+}
