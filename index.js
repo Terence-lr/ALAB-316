@@ -1,6 +1,11 @@
 import './styles.css'
 
-// Menu data structure
+// Cache elements using `getElementById`
+const topMenuEl = document.getElementById('top-menu') // Requirement: `getElementById`
+const mainEl = document.querySelector('main') // Requirement: `querySelector`
+const subMenuEl = document.getElementById('sub-menu')
+
+// Menu data structure with nested submenu links
 var menuLinks = [
   { text: 'about', href: '/about' },
   {
@@ -32,41 +37,54 @@ var menuLinks = [
 ]
 
 // Part 1: Getting Started
-const mainEl = document.querySelector('main')
 mainEl.style.backgroundColor = 'var(--main-bg)'
 mainEl.innerHTML = '<h1>DOM Manipulation</h1>'
 mainEl.classList.add('flex-ctr')
 
 // Part 2: Creating a Menu Bar
-const topMenuEl = document.querySelector('#top-menu')
 topMenuEl.style.height = '100%'
 topMenuEl.style.backgroundColor = 'var(--top-menu-bg)'
 topMenuEl.classList.add('flex-around')
 
-// Part 3: Adding Menu Buttons
+// Part 3: Adding Menu Buttons with Iteration
 menuLinks.forEach((link) => {
-  const newEl = document.createElement('a')
+  const newEl = document.createElement('a') // Requirement: `createElement`
   newEl.href = link.href
   newEl.textContent = link.text
-  topMenuEl.append(newEl)
+  topMenuEl.appendChild(newEl) // Requirement: `appendChild`
 })
 
 // Part 4: Creating the Submenu
-const subMenuEl = document.querySelector('#sub-menu')
 subMenuEl.style.height = '100%'
 subMenuEl.style.backgroundColor = 'var(--sub-menu-bg)'
 subMenuEl.classList.add('flex-around')
 subMenuEl.style.position = 'absolute'
 subMenuEl.style.top = '0'
 
+// Add additional submenu elements using DocumentFragment for efficiency
+function buildSubMenu(subLinks) {
+  subMenuEl.innerHTML = '' // Clear current content
+
+  const fragment = document.createDocumentFragment() // Requirement: `DocumentFragment`
+  subLinks.forEach((link) => {
+    const newEl = document.createElement('a')
+    newEl.href = link.href
+    newEl.textContent = link.text
+    fragment.appendChild(newEl.cloneNode(true)) // Requirement: `cloneNode`
+  })
+
+  subMenuEl.appendChild(fragment) // Append fragment to the submenu element
+}
+
 // Part 5: Adding Menu Interaction
-const topMenuLinks = topMenuEl.querySelectorAll('a')
+const topMenuLinks = topMenuEl.querySelectorAll('a') // Requirement: `querySelectorAll`
+
 topMenuEl.addEventListener('click', (event) => {
   event.preventDefault()
   if (event.target.tagName !== 'A') return
 
   const clickedLink = event.target
-  console.log(clickedLink.textContent)
+  console.log(clickedLink.textContent) // Log the content
 
   // Toggle "active" state for clicked link
   topMenuLinks.forEach((link) => link.classList.remove('active'))
@@ -90,17 +108,6 @@ topMenuEl.addEventListener('click', (event) => {
   }
 })
 
-// Helper function to build the submenu
-function buildSubMenu(subLinks) {
-  subMenuEl.innerHTML = '' // Clear existing content
-  subLinks.forEach((link) => {
-    const newEl = document.createElement('a')
-    newEl.href = link.href
-    newEl.textContent = link.text
-    subMenuEl.append(newEl)
-  })
-}
-
 // Part 6: Adding Submenu Interaction
 subMenuEl.addEventListener('click', (event) => {
   event.preventDefault()
@@ -113,5 +120,29 @@ subMenuEl.addEventListener('click', (event) => {
   topMenuLinks.forEach((link) => link.classList.remove('active')) // Remove active state from top menu links
 
   // Update main content
-  mainEl.innerHTML = `<h1>${clickedSubLink.textContent}</h1>`
+  mainEl.innerHTML = `<h1>${clickedSubLink.textContent}</h1>` // Requirement: `innerHTML`
+})
+
+// Browser Object Model (BOM) Examples
+alert('Welcome to the interactive menu!') // Requirement: BOM method - `alert`
+console.log(window.location.href) // Log current URL - Requirement: BOM `window.location`
+
+// Form with validation (Add this to HTML)
+/* 
+<form id="userForm">
+  <input type="text" id="username" name="username" required minlength="4" placeholder="Enter username" />
+  <button type="submit">Submit</button>
+</form>
+*/
+
+const userForm = document.getElementById('userForm') // Cache form element
+userForm.addEventListener('submit', (event) => {
+  // Requirement: Event-based validation
+  event.preventDefault()
+  const username = document.getElementById('username').value
+  if (username.length < 4) {
+    alert('Username must be at least 4 characters long')
+  } else {
+    alert(`Welcome, ${username}`)
+  }
 })
